@@ -1,5 +1,6 @@
-## Aquatic's C++ Test
+# Aquatic's C++ Test
 
+## Background
 An exchange is a process that accepts orders from market participants, and matches "bid" orders (buys) with "ask" orders (sells). When the orders match (described below), the relevant orders "trade".
 
 Orders are uniquely identified by an unsigned integer. Orders have a "side" (either `BID` or `ASK`), a "price" (a signed integer), and a "quantity" (an unsigned integer).
@@ -16,17 +17,17 @@ If the incoming order has any remaining quantity left, it will rest in the book.
 
 You will not be asked to delete a non-existent order. An order with a given ID will be added at most once.
 
-## Examples
+### Examples
 
-All these examples assume the book is empty to start with. Some examples are also present in `tests/test.cpp`.
+All these examples assume the book is empty to start with. Some examples are also present in `test.cpp`.
 
-### Example one
+#### Example one
 
 - A bid order at price 150 for quantity 10 rests.
 - An ask order at price 150 for quantity 5 will trade 5 lots against the resting bid order (resulting in two trades, one for the resting order, and then one for the incoming ask order). No quantity rests from the ask order.
 - A subsequent ask order at price 150 for 20 will trade the remaining 5 lots with the resting order (again, resulting in two trades). The resting bid order is used up, and the remaining quantity in the incoming order (15, in this case) will rest.
 
-### Example two
+#### Example two
 
 - A bid order at price 150 for quantity 10 rests.
 - Another bid order at price 150 for quantity 50 rests.
@@ -39,9 +40,9 @@ All these examples assume the book is empty to start with. Some examples are als
 
 ## Your task
 
-Your task is to finish the code in `Exchange.cpp`, recording orders as they are placed, potentially matching resting orders, and deleted. Your code must match orders appropriately, and should call the constructor-provided `TradeReporter`'s `on_trade` method with the details of the matching trade. We'll use the tests in `tests/test.cpp` as our entry point.
+Your task is to finish the code in `src/Exchange.cpp`, recording orders as they are placed, potentially matching resting orders, and deleted. Your code must match orders appropriately, and should call the constructor-provided `TradeReporter`'s `on_trade` method with the details of the matching trade. We'll use the tests in `test.cpp` as our entry point.
 
-Simple types are provided in `Types.hpp`. Please feel free to modify existing files or to add files. Compiler flags are specified in the `Makefile`.
+Simple types are provided in `src/Types.hpp`. Please feel free to modify existing files or to add files. Compiler flags are specified in `CMakeLists.txt`.
 
 
 ### Some things to consider
@@ -55,7 +56,12 @@ Here are some of the things we'll be looking for in your solution:
   * Does it resemble software that others would want to maintain in perpetuity?
   * Does it demonstrate an awareness for contemporary best practices in C++?
 
-## Instructions
+## Development
 
-`make build` will build the unit test binary; `make test` will run it. These commands will automatically get dependencies from Conda Forge, so it'll take a while the first time you run either of these. You can modify
-`environment.yml` as well as the `Makefile` and `CMakeLists.txt` to adjust the development environment as you see fit.
+The repository, in its current state, is only compatible with a 64-bit version of a Linux-based OS. If you don't have one around, you can access one for free via a Github Codespace (see `codespace.png` if you're unfamiliar with how to obtain one). A Codespace is an isolated development container running in the cloud, and so insulates you from some potential development environment woes.
+
+When you've got the repository checked out in your environment of choice, it's important to first create a working branch with `git checkout -b [your branch name]`, since you'll be submitting a `git diff` of the result of your work and the state of `main`.
+
+When you're on your branch, `make build` will build the unit test binary, and `make test` will run it. If you're not working in a Codespace, these commands will get dependencies if they're not already present, so it'll take a while the first time you run either of these. You can modify `environment.yml` as well as the `Makefile` and `CMakeLists.txt` to adjust the development environment as you see fit.
+
+You can build and run in release mode by setting the environment variable `BUILD_TYPE=release` in your invocation of either `make build` or `make test`.

@@ -4,8 +4,6 @@ MAMBA := $(MICROMAMBA)/micromamba
 VENV := $(PWD)/.venv
 DEPS := $(VENV)/.deps
 BIN := $(VENV)/bin
-PYTHON := $(VENV)/bin/python
-PYTHON_CMD := PYTHONPATH=$(CURDIR) $(PYTHON)
 BUILD_TYPE?=debug
 BUILD_TYPE_LOWER:=$(shell echo $(BUILD_TYPE) | tr '[:upper:]' '[:lower:]')
 BUILD_ROOT:=$(CURDIR)/out/$(BUILD_TYPE_LOWER)
@@ -64,3 +62,7 @@ test: build
 format: deps
 	find src -iname '*.hpp' -o -iname '*.cpp' | xargs $(BIN)/clang-format -i
 	$(BIN)/clang-format -i test.cpp
+
+patch:
+	git add .
+	git diff --binary main > aqtc_cpp.patch
