@@ -58,7 +58,7 @@ Here are some of the things we'll be looking for in your solution:
 
 ## Development
 
-The repository, in its current state, is only compatible with a 64-bit version of a Linux-based OS. If you don't have one around, you can access one for free via a Github Codespace (see `codespace.png` if you're unfamiliar with how to obtain one). A Codespace is an isolated development container running in the cloud, and so insulates you from some potential development environment woes.
+The repository, in its current state, is only compatible with a 64-bit version of a Linux-based OS. We recommend accessing one for free via a Github Codespace (see `codespace.png` if you're unfamiliar with how to obtain one). A Codespace is a preconfigured, isolated development container running in the cloud, and so insulates you from some potential development environment woes. The next stage of the interview process will also be conducted within a collaborative Codespace (due to the availability of a convenient live sharing extension), extending the work you do in this stage.
 
 When you've got the repository checked out in your environment of choice, it's important to first create a working branch with `git checkout -b [your branch name]`, since you'll be submitting a `git diff` of the result of your work and the state of `main`.
 
