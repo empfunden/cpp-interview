@@ -4,7 +4,7 @@
 
 Let's say that we're an air traffic control team, and we'd like to write some software to help our human traffic controllers ensure that the aircraft under our management at any given moment aren't at risk of colliding with each other. Towards that objective, we'd like to write a C++ library that processes messages that contain information about aircraft location. Each message consists of the following fields:
 
-- `timestamp_ns`: the epoch timestamp in nanoseconds
+- `timestamp`: a timestamp for the current air traffic control session in milliseconds
 - `aircraft_id`: the aircraft's identifier
 - `position`: a 3D vector indicating the current location of the aircraft
 - `direction`: a unit 3D vector indicating the forward direction of the aircraft
@@ -12,7 +12,9 @@ Let's say that we're an air traffic control team, and we'd like to write some so
 
 In addition, there are announcement messages that arise when an aircraft enters and exits our airspace.
 
-Your task is to finish the code in `src/Planespotter.cpp` and to write some basic documentation in `DOCUMENTATION.md`. The unit tests in `test.cpp` will act as the entry point for running your library code and as a basic form of validation. Please feel free to modify existing files or to add files. 
+Your task is to finish the code in `src/Planespotter.cpp` and to write some basic documentation in `DOCUMENTATION.md` explaining to a prospective customer the assumptions that the software makes, its limitations, and operating recommendations. (In a subsequent stage of this interview, you'll be asked to write additional documentation for a prospective maintainer of the code.)
+
+The unit tests in `test.cpp` will act as the entry point for running your library code and as a limited form of validation. Feel free to add any additional classes, libraries, tests, etc. that you're inclined to. You may even modify the signature of the `Planespotter` methods, so long as it retains its utility.
 
 While this scenario is safety-themed, it isn't necessary to construct an implementation that adheres to best practices within the domain of realtime, safety-critical systems programming that actual collision avoidance software might want to. 
 
@@ -24,6 +26,7 @@ We expect that solving this will take you about two hours, although you're free 
 Here are some of the things we'll be looking for in your solution:
   * Can you understand the development environment and be productive in it?
   * Can you create a straightforward and effective solution in a reasonable amount of time?
+  * Can you communicate fluently about technical material?
   * Is there any unnecessary complexity? Is the amount of abstraction appropriate?
   * Does it resemble software that others would want to maintain in perpetuity?
   * Does it demonstrate an awareness for contemporary best practices in C++?
