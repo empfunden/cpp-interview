@@ -47,6 +47,7 @@ config: $(BUILD_ROOT)/.configured
 $(BUILD_ROOT)/.configured:
 	mkdir -p $(BUILD_ROOT)
 	$(CMAKE) -S $(CURDIR) -B $(BUILD_ROOT) \
+		-GNinja \
 		-DCMAKE_MAKE_PROGRAM=$(NINJA) \
 		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		-DCMAKE_CXX_COMPILER=$(COMPILER)
