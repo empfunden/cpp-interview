@@ -11,6 +11,7 @@ BUILD_TYPE_LOWER:=$(shell echo $(BUILD_TYPE) | tr '[:upper:]' '[:lower:]')
 BUILD_ROOT:=$(CURDIR)/out/$(BUILD_TYPE_LOWER)
 COMPILER := $(BIN)/x86_64-conda-linux-gnu-g++
 CMAKE := $(BIN)/cmake
+NINJA := $(BIN)/ninja
 OUT := $(CURDIR)/out
 
 .PHONY: test help
@@ -46,7 +47,7 @@ config: $(BUILD_ROOT)/.configured
 $(BUILD_ROOT)/.configured:
 	mkdir -p $(BUILD_ROOT)
 	$(CMAKE) -S $(CURDIR) -B $(BUILD_ROOT) \
-		-GNinja \
+		-DCMAKE_MAKE_PROGRAM=$(NINJA) \
 		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		-DCMAKE_CXX_COMPILER=$(COMPILER)
 
