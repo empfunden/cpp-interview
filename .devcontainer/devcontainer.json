@@ -3,5 +3,13 @@
 {
 	"name": "Ubuntu",
 	"image": "mcr.microsoft.com/devcontainers/base:noble",
-	"postCreateCommand": "make deps"
+	"postCreateCommand": "make deps",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vsliveshare.vsliveshare"
+			]
+		}
+	}
 }
