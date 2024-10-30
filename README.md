@@ -1,53 +1,25 @@
-# Aquatic's C++ Test
+# Air Traffic Control
 
 ## Background
-An exchange is a process that accepts orders from market participants, and matches "bid" orders (buys) with "ask" orders (sells). When the orders match (described below), the relevant orders "trade".
 
-Orders are uniquely identified by an unsigned integer. Orders have a "side" (either `BID` or `ASK`), a "price" (a signed integer), and a "quantity" (an unsigned integer).
+Let's say that we're an air traffic control team, and we'd like to write some software to help our human traffic controllers ensure that the aircraft under our management at any given moment aren't at risk of colliding with each other. Towards that objective, we'd like to write a C++ library that processes messages that contain information about aircraft location. Each message consists of the following fields:
 
-A bid order's price is the maximum price the participant is prepared to pay. An ask order's price is the minimum price the participant is prepared to sell for.
+- `timestamp_ns`: the epoch timestamp in nanoseconds
+- `aircraft_id`: the aircraft's identifier
+- `position`: a 3D vector indicating the current location of the aircraft
+- `direction`: a unit 3D vector indicating the forward direction of the aircraft
+- `speed`: the aircraft's speed in meters per second
 
-An order that doesn't immediately match an existing order to buy or sell is remembered, and becomes valid until it is either traded against by a subsequent order, or is canceled. Such an order is said to "rest" in the book.
+In addition, there are announcement messages that arise when an aircraft enters and exits our airspace.
 
-An incoming order is compared to all the resting orders on the opposite side of the book (incoming bids are matched against resting asks and vice versa). Matches occur when the incoming order is at or better than any resting order(s). Each match causes two trades to be noted: the resting order trades and then the incoming order. The quantity that trades is the minimum of the two orders, and the price is that of the resting order.
+Your task is to finish the code in `src/Planespotter.cpp` and to write some basic documentation in `DOCUMENTATION.md`. The unit tests in `test.cpp` will act as the entry point for running your library code and as a basic form of validation. Please feel free to modify existing files or to add files. 
 
-An incoming order can match multiple resting orders. Orders are matched by the best price first, and then for orders at the same price, by the order that rested first.
-
-If the incoming order has any remaining quantity left, it will rest in the book.
-
-You will not be asked to delete a non-existent order. An order with a given ID will be added at most once.
-
-### Examples
-
-All these examples assume the book is empty to start with. Some examples are also present in `test.cpp`.
-
-#### Example one
-
-- A bid order at price 150 for quantity 10 rests.
-- An ask order at price 150 for quantity 5 will trade 5 lots against the resting bid order (resulting in two trades, one for the resting order, and then one for the incoming ask order). No quantity rests from the ask order.
-- A subsequent ask order at price 150 for 20 will trade the remaining 5 lots with the resting order (again, resulting in two trades). The resting bid order is used up, and the remaining quantity in the incoming order (15, in this case) will rest.
-
-#### Example two
-
-- A bid order at price 150 for quantity 10 rests.
-- Another bid order at price 150 for quantity 50 rests.
-- Yet another bid order at price 155 for quantity 20 rests.
-- An incoming ask order to sell 1000 at price 140 will match with, in this sequence:
-  - the bid order at 155, for 20, depleting it.
-  - the first-placed bid order at 150 for 10, depleting it.
-  - the bid order at 150 for 50, depleting it
-- the incoming ask order then rests at price 140 with remaining quantity 920
-
-## Your task
-
-Your task is to finish the code in `src/Exchange.cpp`, recording orders as they are placed, potentially matching resting orders, and deleted. Your code must match orders appropriately, and should call the constructor-provided `TradeReporter`'s `on_trade` method with the details of the matching trade. We'll use the tests in `test.cpp` as our entry point.
-
-Simple types are provided in `src/Types.hpp`. Please feel free to modify existing files or to add files. Compiler flags are specified in `CMakeLists.txt`.
+While this scenario is safety-themed, it isn't necessary to construct an implementation that adheres to best practices within the domain of realtime, safety-critical systems programming that actual collision avoidance software might want to. 
 
 
 ### Some things to consider
 
-We expect that solving this will take you about two hours. Your implementation should prioritize correctness and simplicity, rather than performance, generality, or the accurate simulation of real-world exchanges.
+We expect that solving this will take you about two hours, although you're free to take as much or as little time as you want. Your implementation should prioritize correctness and simplicity, rather than performance, generality, or the accurate simulation of real-world collision avoidance systems.
 
 Here are some of the things we'll be looking for in your solution:
   * Can you understand the development environment and be productive in it?
@@ -66,4 +38,4 @@ When you're on your branch, `make build` will build the unit test binary, and `m
 
 You can build and run in release mode by setting the environment variable `BUILD_TYPE=release` in your invocation of either `make build` or `make test`.
 
-When you're satisfied with your work, run `make patch` and send the result, `aqtc_cpp.patch`, to your recruiter. 
+When you're done, run `make patch` and send the result, `aqtc_cpp.patch`, to your recruiter via e-mail. 
