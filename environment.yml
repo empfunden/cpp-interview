@@ -1,0 +1,10 @@
+---
+name: interview
+
+channels:
+  - conda-forge
+dependencies:
+  - gxx_linux-64=14.2.0
+  - cmake=3.30.5
+  - clang-format=19.1.2
+  - catch2=3.7.1

@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.15)
+project(aqtc_interview VERSION 1.0 DESCRIPTION "The C++ Interview for Aquatic" LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 23)
+
+add_subdirectory(src)
+
+# Specific to debug mode; the default release flags of -O3 seem sufficient
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
+    -fno-omit-frame-pointer \
+    -fsanitize=leak \
+    -fsanitize=address \
+    -fsanitize=undefined \
+    -Wall")
+
+# Testing
+find_package(Catch2 3 REQUIRED)
+add_executable(test test.cpp)
+target_link_libraries(test PRIVATE Catch2::Catch2WithMain interview_lib)
+target_include_directories(test PRIVATE .venv/include)
