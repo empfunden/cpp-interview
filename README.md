@@ -65,3 +65,5 @@ When you've got the repository checked out in your environment of choice, it's i
 When you're on your branch, `make build` will build the unit test binary, and `make test` will run it. If you're not working in a Codespace, these commands will get dependencies if they're not already present, so it'll take a while the first time you run either of these. You can modify `environment.yml` as well as the `Makefile` and `CMakeLists.txt` to adjust the development environment as you see fit.
 
 You can build and run in release mode by setting the environment variable `BUILD_TYPE=release` in your invocation of either `make build` or `make test`.
+
+When you're satisfied with your work, run `make patch` and send the result, `aqtc_cpp.patch`, to your recruiter. 
