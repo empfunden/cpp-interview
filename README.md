@@ -2,7 +2,7 @@
 
 ## Background
 
-Let's say that we're an air traffic control team, and we'd like to write some software to help our human traffic controllers ensure that the aircraft under our management at any given moment aren't at risk of colliding with each other. Towards that objective, we'd like to write a C++ library that processes messages that contain information about aircraft location. Each message consists of the following fields:
+Let's say that we're an air traffic control team, and we'd like to write some software to help our human traffic controllers ensure that the aircraft under our management at any given moment aren't at risk of colliding with each other. Towards that objective, we'd like to write a C++ library that processes messages that contain information about aircraft location. Each position message consists of the following fields:
 
 - `timestamp`: a timestamp for the current air traffic control session in milliseconds
 - `aircraft_id`: the aircraft's identifier
@@ -12,7 +12,7 @@ Let's say that we're an air traffic control team, and we'd like to write some so
 
 In addition, there are announcement messages that arise when an aircraft enters and exits our airspace.
 
-Your task is to finish the code in `src/Planespotter.cpp` and to write some basic documentation in `DOCUMENTATION.md` explaining to a prospective customer the assumptions that the software makes, its limitations, and operating recommendations. (In a subsequent stage of this interview, you'll be asked to write additional documentation for a prospective maintainer of the code.)
+Your task is to finish the `Planespotter` class in `src/Planespotter.cpp` and to write some basic documentation in `DOCUMENTATION.md` explaining to a prospective customer the assumptions that the software makes, its limitations, and operating recommendations. A `Planespotter` models aircraft as being spheres moving at a constant speed in a straight line in 3 dimensions. It should inform its users whether any of these spheres are expected to intersect; the proximity threshold and prediction time horizon can be configured by the user of a `Planespotter`. 
 
 The unit tests in `test.cpp` will act as the entry point for running your library code and as a limited form of validation. Feel free to add any additional classes, libraries, tests, etc. that you're inclined to. You may even modify the signature of the `Planespotter` methods, so long as it retains its utility.
 
@@ -21,7 +21,7 @@ While this scenario is safety-themed, it isn't necessary to construct an impleme
 
 ### Some things to consider
 
-We expect that solving this will take you about two hours, although you're free to take as much or as little time as you want. Your implementation should prioritize correctness and simplicity, rather than performance, generality, or the accurate simulation of real-world collision avoidance systems.
+We expect that solving this will take you about two hours of active development (i.e. research, typing, validation) time, although you're free to take as much or as little time as you want. Your implementation should prioritize correctness and simplicity, rather than performance, generality, or the accurate simulation of real-world collision avoidance systems (although none of these are bad).
 
 Here are some of the things we'll be looking for in your solution:
   * Can you understand the development environment and be productive in it?
@@ -33,7 +33,7 @@ Here are some of the things we'll be looking for in your solution:
 
 ## Development
 
-The repository, in its current state, is only compatible with a 64-bit version of a Linux-based OS. We recommend accessing one for free via a Github Codespace (see `codespace.png` if you're unfamiliar with how to obtain one). A Codespace is a preconfigured, isolated development container running in the cloud, and so insulates you from some potential development environment woes. The next stage of the interview process will also be conducted within a collaborative Codespace (due to the availability of a convenient live sharing extension), extending the work you do in this stage.
+The repository, in its current state, is only compatible with a 64-bit version of a Linux-based OS. We recommend accessing one for free via a Github Codespace (see `codespace.png` for a screenshot of where to click on Github). A Codespace is a preconfigured, isolated development container running in the cloud, and so insulates you from some potential development environment woes. The next stage of the interview process will also be conducted within a collaborative Codespace (due to the availability of a convenient live sharing extension), extending the work you do in this stage.
 
 When you've got the repository checked out in your environment of choice, it's important to first create a working branch with `git checkout -b [your branch name]`, since you'll be submitting a `git diff` of the result of your work and the state of `main`.
 
