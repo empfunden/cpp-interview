@@ -14,11 +14,9 @@ In addition, there are departure messages that arise when an aircraft exits our 
 
 Your task is to finish the `Planespotter` class in `src/Planespotter.cpp` and to write some basic documentation in `DOCUMENTATION.md` explaining to a project manager the assumptions that the software makes, its limitations, operating recommendations for the software in its current state, and recommendations for a future iterations.
 
-A `Planespotter` models aircraft as being spheres moving at a constant speed in a straight line in 3 dimensions. It should inform its users whether any of these spheres are expected to intersect. The proximity threshold and prediction time horizon can be configured by the user of a `Planespotter`; the former essentially sets the size of these spheres and the latter determines how far into the future to check for that intersection.
+A `Planespotter` models aircraft as being spheres moving at a constant speed in a straight line in 3 dimensions. It should inform its users whether any of these spheres are expected to intersect. The proximity threshold and prediction time horizon can be configured by the user of a `Planespotter`; the former essentially sets the size of these spheres and the latter determines how far into the future to check for that intersection. There's some math involved, but we promise not to get any more involved than that in the follow-up interview.
 
 The unit tests in `test.cpp` will act as the entry point for running your library code and as a limited form of validation. Feel free to add any additional classes, libraries, tests, etc. that you're inclined to. You may even modify the signature of the `Planespotter` methods, so long as it retains its utility.
-
-While this scenario is safety-themed, it isn't necessary to construct an implementation that adheres to best practices within the domain of realtime, safety-critical systems programming that actual collision avoidance software might want to. 
 
 
 ### Some things to consider
@@ -28,14 +26,14 @@ We expect that solving this will take you about two hours of active development 
 Here are some of the things we'll be looking for in your solution:
   * Can you understand the development environment and be productive in it?
   * Can you create a straightforward and effective solution in a reasonable amount of time?
-  * Can you write technical material that's and useful to its audience?
+  * Can you write technical material that's useful to its audience?
   * Is there any unnecessary complexity? Is the amount of abstraction appropriate?
   * Does it resemble software that others would want to maintain in perpetuity?
   * Does it demonstrate an awareness for contemporary best practices in C++?
 
 ## Development
 
-The repository, in its current state, is only compatible with a 64-bit version of a Linux-based OS. We recommend accessing one for free via a Github Codespace (see `codespace.png` for a screenshot of where to click on Github). A Codespace is a preconfigured, isolated development container running in the cloud, and so insulates you from some potential development environment woes. The next stage of the interview process will also be conducted within a collaborative Codespace (due to the availability of a convenient live sharing extension), extending the work you do in this stage.
+The repository is compatible with a 64-bit version of a Linux-based OS. We recommend accessing one for free via a Github Codespace (see `codespace.png` for a screenshot of where to click on Github). A Codespace is a preconfigured, isolated development container running in the cloud, and so insulates you from some potential development environment woes. The follow-up interview will also be conducted within a collaborative Codespace.
 
 When you've got the repository checked out in your environment of choice, it's important to first create a working branch with `git checkout -b [your branch name]`, since you'll be submitting a `git diff` of the result of your work and the state of `main`.
 

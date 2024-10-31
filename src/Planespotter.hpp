@@ -15,7 +15,7 @@ private:
   uint8_t prediction_horizon{};
 
 public:
-  // The proximity threshold determines how close two planes have to be for
+  // The proximity threshold determines how close two aircraft have to be for
   // them to represent a proximity violation.
   //
   // The prediction horizon specifies how far into the future to predict
