@@ -4,23 +4,24 @@
 
 namespace aqtc {
 
-struct Vec3 {
-  int16_t x{};
-  int16_t y{};
-  int16_t z{};
+using AircraftId = uint16_t;
+
+template <typename T> struct Vec3 {
+  T x{};
+  T y{};
+  T z{};
 };
 
 struct PositionMessage {
   uint32_t timestamp{};
-  uint16_t aircraft_id{};
-  Vec3 position;
-  Vec3 direction;
+  AircraftId aircraft_id{};
+  Vec3<int32_t> position;
+  Vec3<float> direction;
   uint16_t speed{};
 };
 
-struct AnnouncementMessage {
-  bool entering{};
-  uint16_t aircraft_id{};
+struct DepartureMessage {
+  AircraftId aircraft_id{};
 };
 
 } // namespace aqtc
