@@ -6,7 +6,7 @@ Let's say that we're an air traffic control team, and we'd like to write some so
 
 - `timestamp`: a timestamp for the current air traffic control session in milliseconds
 - `aircraft_id`: the aircraft's identifier
-- `position`: a 3D vector indicating the current location of the aircraft
+- `position`: a 3D vector indicating the current position of the aircraft
 - `direction`: a unit 3D vector indicating the direction of the aircraft's travel
 - `speed`: the aircraft's speed in meters per second
 
@@ -14,21 +14,19 @@ In addition, there are departure messages that arise when an aircraft exits our 
 
 Your task is to finish the `Planespotter` class in `src/Planespotter.cpp` and to write some basic documentation in `DOCUMENTATION.md` explaining to a project manager the assumptions that the software makes, its limitations, operating recommendations for the software in its current state, and recommendations for a future iterations.
 
-A `Planespotter` models aircraft as being spheres moving at a constant speed in a straight line in 3 dimensions. It should inform its users whether any of these spheres are expected to intersect. The proximity threshold and prediction time horizon can be configured by the user of a `Planespotter`; the former essentially sets the size of these spheres and the latter determines how far into the future to check for that intersection. There's some math involved, but we promise not to get any more involved than that in the follow-up interview.
+A `Planespotter` models each aircraft as a point moving at a constant speed in a straight line in 3 dimensions. Upon receiving a position message, the `Planespotter` should tell us whether any of these points are expected to cause a proximity violation with any of the other known aircraft, assumed to still be proceeding on their last known courses, over some provided time horizon. The proximity threshold and prediction time horizon can be configured by the user of a `Planespotter`. There's some middle school math involved, but we won't get any more involved than that.
 
 The unit tests in `test.cpp` will act as the entry point for running your library code and as a limited form of validation. Feel free to add any additional classes, libraries, tests, etc. that you're inclined to. You may even modify the signature of the `Planespotter` methods, so long as it retains its utility.
 
-
-### Some things to consider
-
-We expect that solving this will take you about two hours of active development (i.e. research, typing, validation) time, although you're free to take as much or as little time as you want. Your implementation should prioritize correctness and maintainability, rather than performance, generality, or the accurate simulation of real-world collision avoidance systems. None of those other qualities are bad, however, and we'd certainly welcome a solution that incorporated them; you can also comment in `DOCUMENTATION.md` about how you'd extend the software along those other axes.
+### What we're looking for
+We expect that solving this will take you about two hours of active development (i.e. reading this, consulting reference material, typing, iteration, validation) time, although you're free to take as much or as little time as you want. Your implementation should prioritize correctness and maintainability, rather than performance, generality, or the accurate simulation of real-world collision avoidance systems. None of those other qualities are bad, however, and we'd certainly welcome a solution that incorporated them; you can also comment in `DOCUMENTATION.md` about how you'd extend the software along those other axes.
 
 Here are some of the things we'll be looking for in your solution:
   * Can you understand the development environment and be productive in it?
   * Can you create a straightforward and effective solution in a reasonable amount of time?
   * Can you write technical material that's useful to its audience?
   * Is there any unnecessary complexity? Is the amount of abstraction appropriate?
-  * Does it resemble software that others would want to maintain in perpetuity?
+  * Can you write software that others would want to maintain in perpetuity?
   * Does it demonstrate an awareness for contemporary best practices in C++?
 
 ## Development
