@@ -24,8 +24,9 @@ public:
   // proximity violation is predicted to occur.
   Planespotter(uint16_t proximity_threshold, uint8_t prediction_horizon);
 
-  // Given a message, return a view of aircraft IDs participating in any
-  // predicted proximity violations.
+  // Given a message, return a span of aircraft IDs participating in any
+  // predicted proximity violations. The lifetime of the span should be up to
+  // the next time this method is called.
   std::span<AircraftId> handle(const PositionMessage &message);
 
   void handle(const DepartureMessage &message);
