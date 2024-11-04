@@ -15,7 +15,7 @@ public:
   void on_delete(OrderId id);
 
 private:
-  TradeReporter* trade_reporter_;
+  TradeReporter* trade_reporter_ptr_;
   std::map<int, int_int_map> bids_;
   std::map<int, int_int_map> asks_;
   std::map<int, Side> id_to_side;

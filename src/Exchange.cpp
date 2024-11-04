@@ -17,13 +17,12 @@ since we want to fetch the highest bid to test against the lowest ask.
 
 // The [[maybe_unused]] in this file are only to prevent warnings
 // relating to the fact the implementation is missing.
-Exchange::Exchange([[maybe_unused]] TradeReporter &trade_reporter) : trade_reporter_(&trade_reporter) {
-  // TODO: Implement
-}
+Exchange::Exchange(TradeReporter &trade_reporter) : 
+  trade_reporter_ptr_(&trade_reporter) { }
 
-void Exchange::on_add([[maybe_unused]] OrderId id, [[maybe_unused]] Side side,
-                      [[maybe_unused]] Price price,
-                      [[maybe_unused]] Quantity quantity) {
+void Exchange::on_add(OrderId id, Side side,
+                      Price price,
+                      Quantity quantity) {
   
   // We add the order to the correct side and then
   // call a helper to execute all trades that can now occur.
@@ -44,7 +43,7 @@ void Exchange::on_add([[maybe_unused]] OrderId id, [[maybe_unused]] Side side,
   execute_valid_trades();
 }
 
-void Exchange::on_delete([[maybe_unused]] OrderId id) {
+void Exchange::on_delete( OrderId id) {
   
   Side victim_side = id_to_side[id];
   int victim_price = id_to_price[id];
@@ -99,7 +98,7 @@ void Exchange::execute_valid_trades() {
     auto& [bid_id, bid_qty] = *bid_level.begin();
 
     Quantity tradeable_qty = std::min(ask_qty, bid_qty);
-    Price resting_price;
+    Price resting_price;  // Not necessary; extra var for readability.
 
     // Note that the resting order between the bid/ask must be the one
     // with the lowest id (which must have been placed there first),
@@ -109,13 +108,13 @@ void Exchange::execute_valid_trades() {
 
     if (ask_id < bid_id) {
       resting_price = ask_price;
-      trade_reporter_->on_trade(ask_id, resting_price, tradeable_qty);
-      trade_reporter_->on_trade(bid_id, resting_price, tradeable_qty);
+      trade_reporter_ptr_->on_trade(ask_id, resting_price, tradeable_qty);
+      trade_reporter_ptr_->on_trade(bid_id, resting_price, tradeable_qty);
     }
     else {
       resting_price = bid_price;
-      trade_reporter_->on_trade(bid_id, resting_price, tradeable_qty);
-      trade_reporter_->on_trade(ask_id, resting_price, tradeable_qty);
+      trade_reporter_ptr_->on_trade(bid_id, resting_price, tradeable_qty);
+      trade_reporter_ptr_->on_trade(ask_id, resting_price, tradeable_qty);
     }
 
     // Handle the mutual elimination of valid trades, and remove empty
