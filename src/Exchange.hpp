@@ -2,7 +2,10 @@
 
 #include "TradeReporter.hpp"
 #include "Types.hpp"
+
+#include <iostream>
 #include <map>
+#include <algorithm>
 
 namespace aqtc {
 

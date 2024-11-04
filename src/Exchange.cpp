@@ -24,19 +24,21 @@ Exchange::Exchange([[maybe_unused]] TradeReporter &trade_reporter) : trade_repor
 void Exchange::on_add([[maybe_unused]] OrderId id, [[maybe_unused]] Side side,
                       [[maybe_unused]] Price price,
                       [[maybe_unused]] Quantity quantity) {
-  // TODO: Implement
+  
+  // We add the order to the correct side and then
+  // call a helper to execute all trades that can now occur.
+
   if (side == Side::Bid) {
     int_int_map& bids_at_price = bids_[price];
     bids_at_price[id] = quantity;
-    id_to_side[id] = Side::Bid;
   }
 
   else if (side == Side::Ask) {
     int_int_map& asks_at_price = asks_[price];
     asks_at_price[id] = quantity;
-    id_to_side[id] = Side::Ask;
   }
 
+  id_to_side[id] = side;
   id_to_price[id] = price;
 
   execute_valid_trades();
@@ -47,26 +49,49 @@ void Exchange::on_delete([[maybe_unused]] OrderId id) {
   Side victim_side = id_to_side[id];
   int victim_price = id_to_price[id];
 
+  // id_to_... are bookkeeping maps for deletion purposes, so
+  // we can get delete the data since we'll not need it again.
+
+  id_to_side.erase(id);
+  id_to_price.erase(id);
+
+  // Delete the order, as well as the corresponding 
+  // price level if it's now empty.
+
   if (victim_side == Side::Bid) {
     int_int_map& victim_level = bids_[victim_price];
     victim_level.erase(id);
+
+    if (victim_level.empty()) {
+      bids_.erase(victim_price);
+    }
   }
+  
   else if (victim_side == Side::Ask) {
     int_int_map& victim_level = asks_[victim_price];
     victim_level.erase(id);
+
+    if (victim_level.empty()) {
+      asks_.erase(victim_price);
+    }
   }
 }
 
 void Exchange::execute_valid_trades() {
   while (true) {
+
+    // We can keep going until either bids/asks are exhausted or
+    // there's no more good price overlap (see below).
     if (asks_.empty() || bids_.empty()) {
       break;
     }
 
+    // We want to see if there's any price overlap b/w the
+    // min ask (best seller) and max bid (best buyer).
     auto& [ask_price, ask_level] = *asks_.begin();
     auto& [bid_price, bid_level] = *bids_.rbegin();
 
-    if (ask_price != bid_price) {
+    if (ask_price > bid_price) {
       break;
     }
 
@@ -74,20 +99,40 @@ void Exchange::execute_valid_trades() {
     auto& [bid_id, bid_qty] = *bid_level.begin();
 
     Quantity tradeable_qty = std::min(ask_qty, bid_qty);
+    Price resting_price;
 
-    // Note that the resting order between the bid/ask is always the one
-    // with the lowest id (which must have been placed there first).
-    OrderId resting_id = std::min(ask_id, bid_id);
-    OrderId matching_id = std::max(ask_id, bid_id);
+    // Note that the resting order between the bid/ask must be the one
+    // with the lowest id (which must have been placed there first),
+    // and order matters here for recording trades (resting goes first)
+    // So we just condition the order of recorded trades on that.
+    // We could also do this using minmax and make_pair (more complicated).
+
+    if (ask_id < bid_id) {
+      resting_price = ask_price;
+      trade_reporter_->on_trade(ask_id, resting_price, tradeable_qty);
+      trade_reporter_->on_trade(bid_id, resting_price, tradeable_qty);
+    }
+    else {
+      resting_price = bid_price;
+      trade_reporter_->on_trade(bid_id, resting_price, tradeable_qty);
+      trade_reporter_->on_trade(ask_id, resting_price, tradeable_qty);
+    }
+
+    // Handle the mutual elimination of valid trades, and remove empty
+    // remaining orders and bids where necessary. 
 
     ask_qty -= tradeable_qty;
     bid_qty -= tradeable_qty;
 
-    if (ask_qty == 0) {
+    if (ask_qty <= 0) {
       ask_level.erase(ask_id);
+      id_to_side.erase(ask_id);
+      id_to_price.erase(ask_id);
     }
-    if (bid_qty == 0) {
+    if (bid_qty <= 0) {
       bid_level.erase(bid_id);
+      id_to_side.erase(bid_id);
+      id_to_price.erase(bid_id);
     }
 
     if (ask_level.empty()) {
