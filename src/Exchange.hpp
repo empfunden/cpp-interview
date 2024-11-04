@@ -9,8 +9,6 @@
 
 namespace aqtc {
 
-typedef std::map<int, int> int_int_map;
-
 class Exchange {
 public:
   explicit Exchange(TradeReporter &reporter);
