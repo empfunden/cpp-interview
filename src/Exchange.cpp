@@ -65,6 +65,37 @@ void Exchange::execute_valid_trades() {
 
     auto& [ask_price, ask_level] = *asks_.begin();
     auto& [bid_price, bid_level] = *bids_.rbegin();
+
+    if (ask_price != bid_price) {
+      break;
+    }
+
+    auto& [ask_id, ask_qty] = *ask_level.begin();
+    auto& [bid_id, bid_qty] = *bid_level.begin();
+
+    Quantity tradeable_qty = std::min(ask_qty, bid_qty);
+
+    // Note that the resting order between the bid/ask is always the one
+    // with the lowest id (which must have been placed there first).
+    OrderId resting_id = std::min(ask_id, bid_id);
+    OrderId matching_id = std::max(ask_id, bid_id);
+
+    ask_qty -= tradeable_qty;
+    bid_qty -= tradeable_qty;
+
+    if (ask_qty == 0) {
+      ask_level.erase(ask_id);
+    }
+    if (bid_qty == 0) {
+      bid_level.erase(bid_id);
+    }
+
+    if (ask_level.empty()) {
+      asks_.erase(ask_price);
+    }
+    if (bid_level.empty()) {
+      bids_.erase(bid_price);
+    }
   }
 }
 
